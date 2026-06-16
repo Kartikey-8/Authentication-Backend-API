@@ -1,11 +1,39 @@
 const express = require("express");
-require("dotenv").config();
+const cors = require("cors");
+const helmet = require("helmet");
+const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
+
+const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
+
+const errorMiddleware = require("./middleware/errorMiddleware");
+
 const app = express();
-const PORT = process.env.PORT || 3000
+ 
+app.use(helmet());
+
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  }),
+);
+
+app.use(express.json());
+app.use(cookieParser());
+app.use(morgan("dev"));
+
 app.get("/", (req, res) => {
-  res.send("Server Running");
+  res.status(200).json({
+    success: true,
+    message: "Backend API running",
+  });
 });
 
-app.listen(PORT , () => {
-  console.log(`Server running on port ${PORT}`);
-});
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+
+app.use(errorMiddleware);
+ 
+module.exports = app;
