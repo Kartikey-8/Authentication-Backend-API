@@ -1,7 +1,7 @@
 # Authentication & User Management API
 
 A production-style REST API built with Node.js, Express.js, MongoDB, and JWT authentication. This project follows a scalable architecture using Controllers, Services, Middleware, Validators, and Utility layers to maintain clean separation of concerns.
-
+ 
 ## Features
 
 * User Registration
